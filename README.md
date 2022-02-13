@@ -15,42 +15,42 @@ To do DMRG on another model (let's call it "MODEL"), follow these steps:
 
 1. Add a function to lib/default.py named "MODEL" returning a
    dictionary of parameters (example):
+
 ```
-	Parameters = {
-		'System': 'MODEL',
-		'd': 2,								# Physical bond dimension
-		'Simulation': {
-			'L': L,							# System
-			'state': 0,                     # State to be determined (0 for ground state...)
-			'dtype': 'float64',				# Change to complex128 for double-precision complex-valued MPS/MPO if required.
-			'couplings': {
-				'L': ['0', '1.05'],			# Example couplings of Hamiltonian. NOTE that the values are defined as strings! This is important.
-				'Z': '0.333',
-			},
-			'svd': {
-				'minimum_value': 1e-8,		# When performing an SVD, singular values smaller than this are removed.
-				'cutoff': 200,				# Maximum MPS virtual bond dimension (D).
-			},
-			'dmrg': {
-				'min_sweeps': 4,			# Minimun number of sweeps before the simulation can stop.
-				'precision': 1e-6,			# Simulation stops if square root of relative energy variance is smaller than this value.
-			},
-		},
-		'Fit': {
-			'Phase': {						# These parameters are passed to the lib/fit.py 'MODEL' function (see below). Define any items you wish.
-				'threshold': 0.3,
-			},
-		},
-		'Phases': {
-			'indices': (0, 1),
-			'labels':  ('VBS', 'QSL'),
-			'colors':  ('black', 'tab:gray'),
-		},
-	}
+Parameters = {
+  'System': 'MODEL',
+  'd': 2,                  # Physical bond dimension
+  'Simulation': {
+    'L': L,
+    'state': 0,            # State to be determined (0 for ground state...)
+    'dtype': 'float64',    # Change to complex64/128 for complex-valued MPS/MPO if required.
+    'couplings': {
+      'L': ['0', '1.05'],  # Example couplings of Hamiltonian.
+      'Z': '0.333',        # NOTE that the values are defined as strings! This is important.
+    },
+    'svd': {
+      'minimum_value': 1e-8, # When performing an SVD, singular values smaller than this are removed.
+      'cutoff': 200,         # Maximum MPS virtual bond dimension (D).
+    },
+    'dmrg': {
+      'min_sweeps': 4,       # Minimun number of sweeps before the simulation can stop.
+      'precision': 1e-6,     # Simulation stops if square root of relative energy variance is smaller than this value.
+    },
+  },
+  'Fit': {
+    'Phase': {            # These parameters are passed to
+      'threshold': 0.3,   # the lib/fit.py 'MODEL' function (see below).
+    },                    # Define any items you wish.
+  },
+  'Phases': {
+    'indices': (0, 1),
+    'labels':  ('VBS', 'QSL'),
+    'colors':  ('black', 'tab:gray'),
+  },
+}
 ```
 
 Note that the 'System' key should match the name of all functions below.
-
 
 2. Add a function to lib/mpo.py named "MODEL" returning as a numpy.array:
   - The bulk tensor M[i, s, s', j]:
@@ -60,11 +60,11 @@ Note that the 'System' key should match the name of all functions below.
 
 3. Add a function to lib/fit.py named "MODEL" returning a dictionary containing constants of interest (such as an order parameter). Example:
 ```
-	Constants = {
-		'O': [f(M['one-point']), NaN],	# Order parameter
-		'p': [0, 'VBS'],				# Phase
-		'k': [ξ[0]**2, 2*ξ[0]*ξ[1]]		# Return whatever you wish
-	},
+Constants = {
+  'O': [f(M['one-point']), NaN],  # Order parameter
+  'p': [0, 'VBS'],                # Phase
+  'k': [ξ[0]**2, 2*ξ[0]*ξ[1]]     # Return whatever you wish
+},
 ```
 
 The second entries of (most) constants define the error/confidence interval (use 'NaN' if error is not available).
