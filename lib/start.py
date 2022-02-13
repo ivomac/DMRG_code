@@ -7,8 +7,8 @@ NaN = float('nan')
 
 def start(P, argin):
 
-    from lib import default_parameters
-    P = getattr(default_parameters, P['System'])(P)
+    from lib import default
+    P = getattr(default, P['System'])(P)
 
     for fun in argin[1:]:
         Fun = globals()[fun]

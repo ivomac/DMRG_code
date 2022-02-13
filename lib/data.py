@@ -44,7 +44,7 @@ class data:
 
         data.process_couplings()
 
-        data.title = getattr(title, data.System)(data.P)
+        data.title = getattr(title, data.System, title.title)(data.P)
         data.report = ''
 
         fl = Path(data.Data['folder'])
