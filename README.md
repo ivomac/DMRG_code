@@ -19,27 +19,30 @@ To do DMRG on another model (let's call it "MODEL"), follow these steps:
 ```
 Parameters = {
   'System': 'MODEL',
-  'd': 2,                  # Physical bond dimension
+  'd': 2,                 # Physical bond dimension
   'Simulation': {
     'L': L,
-    'state': 0,            # State to be determined (0 for ground state...)
-    'dtype': 'float64',    # Change to complex64/128 for complex-valued MPS/MPO if required.
+    'state': 0,           # State to be determined (0 for ground state)
+    'dtype': 'float64',   # Change to complex64/128 for
+                          # complex-valued MPS/MPO if required.
     'couplings': {
-      'L': ['0', '1.05'],  # Example couplings of Hamiltonian.
-      'Z': '0.333',        # NOTE that the values are defined as strings! This is important.
+      'L': ['0', '1.05'], # Example couplings of Hamiltonian.
+      'Z': '0.333',       # NOTE: the values are defined as strings!
+                          # This is important.
     },
     'svd': {
-      'minimum_value': 1e-8, # When performing an SVD, singular values smaller than this are removed.
-      'cutoff': 200,         # Maximum MPS virtual bond dimension (D).
+      'minimum_value': 1e-8, # Singular values smaller than this are removed.
+      'cutoff': 200,         # Maximum MPS virtual bond dimension.
     },
     'dmrg': {
-      'min_sweeps': 4,       # Minimun number of sweeps before the simulation can stop.
-      'precision': 1e-6,     # Simulation stops if square root of relative energy variance is smaller than this value.
+      'min_sweeps': 4,    # Minimum #sweeps before simul. can stop.
+      'precision': 1e-6,  # Simulation stops if
+                          # sqrt(relative energy variance) < precision.
     },
   },
   'Fit': {
-    'Phase': {            # These parameters are passed to
-      'threshold': 0.3,   # the lib/fit.py 'MODEL' function (see below).
+    'Phase': {            # These parameters are passed to the
+      'threshold': 0.3,   # lib/fit.py 'MODEL' function (below).
     },                    # Define any items you wish.
   },
   'Phases': {
