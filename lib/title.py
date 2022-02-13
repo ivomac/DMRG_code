@@ -1,0 +1,50 @@
+
+def header(P):
+    # fit.Constants['p'][1]
+    return '{} {}: $L={}$ $D={}$'.format(
+        P['Data']['tags'][0],
+        P['System'],
+        P['Simulation']['L'],
+        P['Simulation']['svd']['cutoff'],
+        )
+
+
+def couplings(P):
+    sc = []
+    for name, val in P['Simulation']['couplings'].items():
+        if type(val) is list:
+            val = ['{:.3e}'.format(eval(i)) for i in val]
+            val = '({})'.format(' '.join(val))
+            sc.append('${}={}$'.format(name, val))
+        else:
+            sc.append('${}={:.3e}$'.format(name, eval(val)))
+
+    return ' '.join(sc)
+
+
+def title(P):
+    return globals().get(P['System'], lambda P: f'{header(P)} {couplings(P)}')(P)
+
+
+def Heisenberg(P):
+
+    sc = []
+    for name, val in P['Simulation']['couplings'].items():
+        if name == 'J':
+            st = ['{:.2f}'.format(eval(v)) for v in val]
+            sc.append('${}=({})$'.format(name, ','.join(st)))
+        else:
+            sc.append('${}={:.2f}$'.format(name, eval(val)))
+
+    return f'{header(P)} {" ".join(sc)}'
+
+
+def Rydberg(P):
+
+    sc = []
+    for name, val in P['Simulation']['couplings'].items():
+        if name != 'V':
+            sc.append('${}={:.3f}$'.format(name, eval(val)))
+
+    return f'{header(P)} {" ".join(sc)}'
+
