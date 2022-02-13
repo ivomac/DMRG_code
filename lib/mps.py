@@ -55,7 +55,7 @@ class MPS(list):
 
         for t in ['H', 'O', 'd', 'K']:
             setattr(mps, t, None)
-        mps.d = P['Physical_Bond_Dimension']
+        mps.d = P['d']
         mps.H, mps.O = getattr(mpo, mps.System)(mps.P)
         return
 
