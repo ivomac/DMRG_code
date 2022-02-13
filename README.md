@@ -15,7 +15,7 @@ To do DMRG on another model (let's call it "MODEL"), follow these steps:
 
 1. Add a function to lib/default.py named "MODEL" returning a
    dictionary of parameters (example):
-'''
+```
 	Parameters = {
 		'System': 'MODEL',
 		'd': 2,								# Physical bond dimension
@@ -47,7 +47,7 @@ To do DMRG on another model (let's call it "MODEL"), follow these steps:
 			'colors':  ('black', 'tab:gray'),
 		},
 	}
-'''
+```
 
 Note that the 'System' key should match the name of all functions below.
 
@@ -59,13 +59,13 @@ Note that the 'System' key should match the name of all functions below.
 	* to calculate its local expectation value and correlation function.
 
 3. Add a function to lib/fit.py named "MODEL" returning a dictionary containing constants of interest (such as an order parameter). Example:
-'''
+```
 	Constants = {
 		'O': [f(M['one-point']), NaN],	# Order parameter
 		'p': [0, 'VBS'],				# Phase
 		'k': [ξ[0]**2, 2*ξ[0]*ξ[1]]		# Return whatever you wish
 	},
-'''
+```
 
 The second entries of (most) constants define the error/confidence interval (use 'NaN' if error is not available).
 
